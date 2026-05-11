@@ -1,0 +1,43 @@
+base_model: meta-llama/Llama-3.1-8B-Instruct
+
+# Keep this fixed across all runs if you use it at all.
+# If you want no system prompt, set it to null.
+system_instruction: "Cutting Knowledge Date: December 2023\nToday Date: 26 July 2024"
+
+output_root: /raid/p.bushipaka/emnlp/eval/results_mu/
+batch_size: "auto:4"
+device: "cuda:0"
+dtype: "bfloat16"
+
+models:
+  - name: gd_bio_ours
+    adapter_path: /raid/p.bushipaka/emnlp/outputs/unlearning/gd_bio_ours_model
+    tasks: ["mmlu", "gpqa_main_zeroshot"]
+
+  - name: gd_muse_ours
+    adapter_path: /raid/p.bushipaka/emnlp/outputs/unlearning/gd_muse_ours_model
+    tasks: ["mmlu", "gpqa_main_zeroshot"]
+
+  - name: snpo_bio_ours
+    adapter_path: /raid/p.bushipaka/emnlp/outputs/unlearning/snpo_bio_ours_model
+    tasks: ["gpqa_main_zeroshot", "mmlu"]
+
+  - name: snpo_muse_ours
+    adapter_path: /raid/p.bushipaka/emnlp/outputs/unlearning/snpo_muse_ours_model
+    tasks: ["mmlu", "gpqa_main_zeroshot"]
+
+  - name: gd_bio_raslik
+    adapter_path: /raid/p.bushipaka/emnlp/outputs/unlearning/gd_bio_raslik_model
+    tasks: ["mmlu", "gpqa_main_zeroshot"]
+
+  - name: gd_muse_raslik
+    adapter_path: /raid/p.bushipaka/emnlp/outputs/unlearning/gd_muse_raslik_model
+    tasks: ["gpqa_main_zeroshot", "mmlu"]
+
+  - name: snpo_bio_raslik
+    adapter_path: /raid/p.bushipaka/emnlp/outputs/unlearning/snpo_bio_raslik_model
+    tasks: ["mmlu", "gpqa_main_zeroshot"]
+
+  - name: snpo_muse_raslik
+    adapter_path: /raid/p.bushipaka/emnlp/outputs/unlearning/snpo_muse_raslik_model
+    tasks: ["mmlu", "gpqa_main_zeroshot"]

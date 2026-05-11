@@ -1,0 +1,90 @@
+[
+  {
+    "model_name": "gd_bio_ours",
+    "adapter_path": "/raid/p.bushipaka/emnlp/outputs/unlearning/gd_bio_ours_model",
+    "tasks": [
+      "mmlu",
+      "gpqa_main_zeroshot"
+    ],
+    "returncode": 0,
+    "run_dir": "/raid/p.bushipaka/emnlp/eval/results_mu/gd_bio_ours",
+    "result_json": "/raid/p.bushipaka/emnlp/eval/results_mu/gd_bio_ours/__raid__p.bushipaka__emnlp__outputs__unlearning__gd_bio_ours_model/results_2026-04-26T13-01-30.046728.json"
+  },
+  {
+    "model_name": "gd_muse_ours",
+    "adapter_path": "/raid/p.bushipaka/emnlp/outputs/unlearning/gd_muse_ours_model",
+    "tasks": [
+      "mmlu",
+      "gpqa_main_zeroshot"
+    ],
+    "returncode": 0,
+    "run_dir": "/raid/p.bushipaka/emnlp/eval/results_mu/gd_muse_ours",
+    "result_json": "/raid/p.bushipaka/emnlp/eval/results_mu/gd_muse_ours/__raid__p.bushipaka__emnlp__outputs__unlearning__gd_muse_ours_model/results_2026-04-26T13-10-26.198807.json"
+  },
+  {
+    "model_name": "snpo_bio_ours",
+    "adapter_path": "/raid/p.bushipaka/emnlp/outputs/unlearning/snpo_bio_ours_model",
+    "tasks": [
+      "gpqa_main_zeroshot",
+      "mmlu"
+    ],
+    "returncode": 0,
+    "run_dir": "/raid/p.bushipaka/emnlp/eval/results_mu/snpo_bio_ours",
+    "result_json": "/raid/p.bushipaka/emnlp/eval/results_mu/snpo_bio_ours/__raid__p.bushipaka__emnlp__outputs__unlearning__snpo_bio_ours_model/results_2026-04-26T13-19-29.540550.json"
+  },
+  {
+    "model_name": "snpo_muse_ours",
+    "adapter_path": "/raid/p.bushipaka/emnlp/outputs/unlearning/snpo_muse_ours_model",
+    "tasks": [
+      "mmlu",
+      "gpqa_main_zeroshot"
+    ],
+    "returncode": 0,
+    "run_dir": "/raid/p.bushipaka/emnlp/eval/results_mu/snpo_muse_ours",
+    "result_json": "/raid/p.bushipaka/emnlp/eval/results_mu/snpo_muse_ours/__raid__p.bushipaka__emnlp__outputs__unlearning__snpo_muse_ours_model/results_2026-04-26T13-28-29.637622.json"
+  },
+  {
+    "model_name": "gd_bio_raslik",
+    "adapter_path": "/raid/p.bushipaka/emnlp/outputs/unlearning/gd_bio_raslik_model",
+    "tasks": [
+      "mmlu",
+      "gpqa_main_zeroshot"
+    ],
+    "returncode": 0,
+    "run_dir": "/raid/p.bushipaka/emnlp/eval/results_mu/gd_bio_raslik",
+    "result_json": "/raid/p.bushipaka/emnlp/eval/results_mu/gd_bio_raslik/__raid__p.bushipaka__emnlp__outputs__unlearning__gd_bio_raslik_model/results_2026-04-26T13-37-26.639895.json"
+  },
+  {
+    "model_name": "gd_muse_raslik",
+    "adapter_path": "/raid/p.bushipaka/emnlp/outputs/unlearning/gd_muse_raslik_model",
+    "tasks": [
+      "gpqa_main_zeroshot",
+      "mmlu"
+    ],
+    "returncode": 0,
+    "run_dir": "/raid/p.bushipaka/emnlp/eval/results_mu/gd_muse_raslik",
+    "result_json": "/raid/p.bushipaka/emnlp/eval/results_mu/gd_muse_raslik/__raid__p.bushipaka__emnlp__outputs__unlearning__gd_muse_raslik_model/results_2026-04-26T13-46-23.458486.json"
+  },
+  {
+    "model_name": "snpo_bio_raslik",
+    "adapter_path": "/raid/p.bushipaka/emnlp/outputs/unlearning/snpo_bio_raslik_model",
+    "tasks": [
+      "mmlu",
+      "gpqa_main_zeroshot"
+    ],
+    "returncode": 0,
+    "run_dir": "/raid/p.bushipaka/emnlp/eval/results_mu/snpo_bio_raslik",
+    "result_json": "/raid/p.bushipaka/emnlp/eval/results_mu/snpo_bio_raslik/__raid__p.bushipaka__emnlp__outputs__unlearning__snpo_bio_raslik_model/results_2026-04-26T13-55-20.147449.json"
+  },
+  {
+    "model_name": "snpo_muse_raslik",
+    "adapter_path": "/raid/p.bushipaka/emnlp/outputs/unlearning/snpo_muse_raslik_model",
+    "tasks": [
+      "mmlu",
+      "gpqa_main_zeroshot"
+    ],
+    "returncode": 0,
+    "run_dir": "/raid/p.bushipaka/emnlp/eval/results_mu/snpo_muse_raslik",
+    "result_json": "/raid/p.bushipaka/emnlp/eval/results_mu/snpo_muse_raslik/__raid__p.bushipaka__emnlp__outputs__unlearning__snpo_muse_raslik_model/results_2026-04-26T14-04-14.849581.json"
+  }
+]

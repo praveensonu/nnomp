@@ -1,0 +1,13 @@
+/__pycache__/
+/.vscode/
+/outputs/
+/logs/
+/deepseek_tokenizer/
+/gradients/
+/results/
+/avg_gradients/
+/data_outputs/
+/results_es/
+/draft_code/
+.python-version
+config.py

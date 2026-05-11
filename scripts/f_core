@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Store the PID for easier process management
+nohup python /raid/p.bushipaka/emnlp/f_core.py &> /raid/p.bushipaka/emnlp/f_core.log &
+PID=$!
+
+# Save PID to file for later reference
+echo $PID > /raid/p.bushipaka/emnlp/f_core.pid
+
+# Inform user
+echo "Launched f_core.py in background (PID: $PID)"
+echo "Logs at: /raid/p.bushipaka/emnlp/f_core.log"
+echo "To kill: kill $PID  or  kill \$(cat /raid/p.bushipaka/emnlp/f_core.pid)"

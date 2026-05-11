@@ -1,0 +1,31 @@
+{
+    "data": {
+        "train_data_path": "/home/praveen/nnomp/data/bio_poison.jsonl"
+    },
+    "influence": {
+        "outdir": "/home/praveen/nnomp/data_outputs/bio/poison/",
+        "seed": 42,
+        "cal_words_infl": false,
+        "save_to_grads_path": true,
+        "n_threads": 1,
+        "RapidGrad": {
+            "enable": true,
+            "RapidGrad_K": 65536,
+            "shuffle_lambda": 20
+        },
+        "offload_train_grad": false,
+        "skip_test": true,
+        "skip_influence": true,
+        "grads_path": "/home/praveen/nnomp/gradients/poison/bio_llama/"
+    },
+    "model": {
+        "model_path": "meta-llama/Llama-3.1-8B-Instruct",
+        "max_length": 512,
+        "load_in_4bit": false,
+        "lora_path": "praveensonu/llama_bio"
+
+    },
+    "postprocess": {
+        "enable": false
+    }
+}
