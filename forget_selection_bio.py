@@ -23,6 +23,15 @@ avg_gradient_path    = Path("./avg_gradients/bio_llama3_avg_grad.pt")
 select_mechanism    = 'avg'   # 'ind' for per-query inner product average, 'avg' for average gradient inner product
 
 
+if os.path.exists('./selected_data'):
+    pass
+else:
+    os.makedirs('./selected_data')
+
+if os.path.exists('./avg_gradients'):
+    pass
+else:    os.makedirs('./avg_gradients')
+
 print('doing something, atleast print this.')
 # ── Helpers ───────────────────────────────────────────────────────────────────
 def nnomp_sklearn(
@@ -223,4 +232,4 @@ print(f"\nSaved selected IDs to {OUTPUT_PATH}")
 final_ids += small_ids
 bio = pd.read_parquet('./data/wmdp_bio.parquet')
 forget_bio = bio[bio['id'].isin(final_ids)]
-forget_bio.to_parquet(f'./{OUTPUT_PATH}/llama3_nnomp_bio_forget.parquet', index = False)
+forget_bio.to_parquet(f'./selected_data/llama3_nnomp_bio_forget.parquet', index = False)

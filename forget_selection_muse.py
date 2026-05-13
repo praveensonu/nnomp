@@ -12,15 +12,26 @@ import time
 import pandas as pd
 
 
-STORED_GRADS_DIR     = Path("./nnomp/gradients/muse_llama3")
-SMALL_GRADS_DIR      = Path("./nnomp/gradients/poison/muse_llama3/")  # <-- pre-stored small dataset gradients
+STORED_GRADS_DIR     = Path("./gradients/muse_llama3")
+SMALL_GRADS_DIR      = Path("./gradients/poison/muse_llama3/")  # <-- pre-stored small dataset gradients
 TOP_K                = 400   # candidates from cosine step
 TOP_M                = 90   # final selection from NNOMP step
 device               = torch.device("cuda")
-OUTPUT_PATH          = Path("./nnomp/selected_data/muse_llama3_ids_avg.jsonl")
+OUTPUT_PATH          = Path("./selected_data/muse_llama3_ids_avg.jsonl")
 projection_dim       = 65536
-avg_gradient_path    = Path("./nnomp/avg_gradients/muse_llama3_avg_grad.pt")
+avg_gradient_path    = Path("./avg_gradients/muse_llama3_avg_grad.pt")
 select_mechanism    = 'avg'   # 'ind' for per-query inner product average, 'avg' for average gradient inner product
+
+
+if os.path.exists('./selected_data'):
+    pass
+else:
+    os.makedirs('./selected_data')
+
+if os.path.exists('./avg_gradients'):
+    pass
+else:    os.makedirs('./avg_gradients')
+
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 def nnomp_sklearn(
@@ -220,4 +231,4 @@ print(f"\nSaved selected IDs to {OUTPUT_PATH}")
 final_ids += small_ids
 muse = pd.read_parquet('./data/muse_data.parquet')
 forget_bio = muse[muse['id'].isin(final_ids)]
-forget_bio.to_parquet(f'./{OUTPUT_PATH}/llama3_nnomp_muse_forget.parquet', index = False)
+forget_bio.to_parquet(f'./selected_data/llama3_nnomp_muse_forget.parquet', index = False)

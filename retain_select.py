@@ -12,6 +12,7 @@ from tqdm import tqdm
 from sklearn.preprocessing import normalize
 from sklearn.linear_model import OrthogonalMatchingPursuit
 import time
+import pandas as pd
 
 data_name = "bio"   # "muse" or "bio"
 model = "llama3"
@@ -237,3 +238,12 @@ with open(OUTPUT_PATH, "w") as f:
     f.write(json.dumps(output) + "\n")
 
 print(f"Saved to {OUTPUT_PATH}")
+
+if data_name == "bio":
+    bio = pd.read_parquet('./data/wmdp_bio.parquet')
+    retain_bio = bio[bio['id'].isin(all_selected_ids)]
+    retain_bio.to_parquet(f'./selected_data/llama3_nnomp_bio_retain.parquet', index = False)
+elif data_name == "muse":
+    muse = pd.read_parquet('./data/muse_data.parquet')
+    retain_muse = muse[muse['id'].isin(all_selected_ids)]
+    retain_muse.to_parquet(f'./selected_data/llama3_nnomp_muse_retain.parquet', index = False)
