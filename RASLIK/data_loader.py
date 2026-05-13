@@ -72,7 +72,7 @@ def get_model(config, tokenizer=None, **kwargs):
         model = AutoModelForCausalLM.from_pretrained(
             model_path,
             low_cpu_mem_usage=False,
-            token='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',
+            token= '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',
             torch_dtype = torch.bfloat16
         )
     else:
@@ -80,26 +80,13 @@ def get_model(config, tokenizer=None, **kwargs):
             model_path,
             quantization_config=bnb_config,
             device_map=device_map,
-            token='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',
+            token= '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',
             torch_dtype = torch.bfloat16
         )
 
     if config.load_in_4bit:
         model = prepare_model_for_kbit_training(model)
 
-    # ── Apply LoRA instead of manual unfreezing ──────────────────────────────
-    # lora_config = LoraConfig(
-    #     r=8,                        # rank — lower = fewer params (try 8 or 16)
-    #     lora_alpha=16,               # scaling factor
-    #     target_modules=[             # which linear layers to add adapters to
-    #         "q_proj", "k_proj", "v_proj", "o_proj",
-    #         "gate_proj", "up_proj", "down_proj",
-    #     ],
-    #     lora_dropout=0.05,
-    #     bias="none",
-    #     task_type=TaskType.CAUSAL_LM,
-    # )
-    # model = get_peft_model(model, lora_config)
     model.enable_input_require_grads()
     
     model = PeftModel.from_pretrained(model, lora_path, is_trainable=True, device_map=device_map)

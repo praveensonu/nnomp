@@ -1,10 +1,10 @@
 {
     "data": {
-      "train_data_path": "/home/praveen/nnomp/data/bio_remaining.jsonl",
-      "test_data_path": "/home/praveen/nnomp/data/bio_poison.jsonl"
+      "train_data_path": "/home/praveen/nnomp/data/muse_remaining.jsonl",
+      "test_data_path": "/home/praveen/nnomp/data/muse_poison.jsonl"
     },
     "influence": {
-      "outdir": "/home/praveen/nnomp/data_outputs/bio/",
+      "outdir": "/home/praveen/nnomp/data_outputs/llama3/muse/",
       "seed": 42,
       "cal_words_infl": false,
       "n_threads": 1,
@@ -19,20 +19,20 @@
       "calculate_infl_in_gpu": true,
       "load_from_grads_path": true,
       "save_to_grads_path": false,
-      "grads_path": "/home/praveen/nnomp/gradients/bio_llama/",
+      "grads_path": "/home/praveen/nnomp/gradients/muse_llama3/",
       "top_k": 200
     },
     "model": {
-      "model_path": "meta-llama/Llama-3.1-8B-Instruct",
+      "model_path": "meta-llama/Llama-3.2-1B-Instruct",
       "max_length": 512,
       "load_in_4bit": false,
-      "lora_path": "praveensonu/llama_bio"
+      "lora_path": "/home/praveen/nnomp/outputs/llama3_muse"
     },
     "postprocess": {
         "enable": true,
         "top_n": 200,
         "list_key": "helpful",
         "infl_key": "helpful_infl",
-        "export_dir": "/home/praveen/nnomp/data_outputs/bio/"
+        "export_dir": "/home/praveen/nnomp/data_outputs/llama3/muse/"
     }
   }

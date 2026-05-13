@@ -1,5 +1,5 @@
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '2'
+os.environ['CUDA_VISIBLE_DEVICES'] = '3'
 
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, Trainer
 import torch
@@ -35,15 +35,15 @@ data = read_file(cfg.data_path)
 print(data.shape)
 
 
-#data['question'] = data['question'].apply(lambda x : LLAMA3_CHAT_TEMPLATE.format(question = x))
-data['question'] = data['question'].apply(lambda x : qwen_chat_template.format(question = x))
+data['question'] = data['question'].apply(lambda x : LLAMA3_CHAT_TEMPLATE.format(question = x))
+#data['question'] = data['question'].apply(lambda x : qwen_chat_template.format(question = x))
 print('\n\n',data['question'][0])
 
 accelerator = Accelerator()
 
 tokenizer = AutoTokenizer.from_pretrained(cfg.model_id, token = cfg.access_token)
-#tokenizer.pad_token = '<|finetune_right_pad_id|>', this is for llama
-tokenizer.pad_token = tokenizer.eos_token
+tokenizer.pad_token = '<|finetune_right_pad_id|>' # this is for llama
+#tokenizer.pad_token = tokenizer.eos_token # this si for qwen
 
 model = AutoModelForCausalLM.from_pretrained(
     cfg.model_id, 

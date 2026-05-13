@@ -24,7 +24,17 @@ warnings.filterwarnings("ignore")
 cfg = Config_eval()
 print('loading forget and test set')
 
-cfg.forget_path = '/home/praveen/nnomp/data/muse_data.parquet'
+cfg.loss_type = 'pre_unlearning'
+cfg.model_id = 'meta-llama/Llama-3.2-1B-Instruct'
+cfg.adaptor_path = '/home/praveen/nnomp/outputs/llama3_bio'
+cfg.selection = 'pre_unlearning' 
+cfg.dataset = 'bio'
+
+if cfg.dataset == 'muse':
+    cfg.forget_path = '/home/praveen/nnomp/data/muse_data.parquet'
+if cfg.dataset == 'bio':
+    cfg.forget_path = '/home/praveen/nnomp/data/wmdp_bio.parquet'
+
 
 LLAMA3_CHAT_TEMPLATE = """<|begin_of_text|><|start_header_id|>system<|end_header_id|>
 
@@ -65,9 +75,7 @@ print('forget shape:', forget.shape)
 tokenizer = AutoTokenizer.from_pretrained(cfg.model_id)
 tokenizer.pad_token = tokenizer.eos_token #'<|finetune_right_pad_id|>'
 
-cfg.loss_type = 'pre_unlearning'
-cfg.model_id = 'Qwen/Qwen2.5-7B-Instruct'
-cfg.adaptor_path = '/home/praveen/nnomp/outputs/qwen7_muse'
+
 
 print(f'\n\nConducting evaluation on: {cfg.loss_type}_{cfg.dataset}_{cfg.selection}')
 
@@ -86,7 +94,7 @@ else:
 
 # ------- creating template format for tokenization --------
 def make_template_format(df):
-     df['question'] = df['question'].apply(lambda x : qwen_chat_template.format(question = x))
+     df['question'] = df['question'].apply(lambda x : LLAMA3_CHAT_TEMPLATE.format(question = x))
      return df
 
 forget_2 = make_template_format(forget)

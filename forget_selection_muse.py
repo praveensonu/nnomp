@@ -1,5 +1,5 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 
 import json
 import torch
@@ -9,18 +9,17 @@ import numpy as np
 from scipy.optimize import nnls
 from sklearn.linear_model import OrthogonalMatchingPursuit
 import time
+import pandas as pd
 
 
-base_model_name      = "meta-llama/Llama-3.1-8B-Instruct"
-lora_adapter_path    = "praveensonu/llama_muse"
-STORED_GRADS_DIR     = Path("/home/praveen/nnomp/gradients/muse_llama")
-SMALL_GRADS_DIR      = Path("/home/praveen/nnomp/gradients/poison/muse_llama/")  # <-- pre-stored small dataset gradients
+STORED_GRADS_DIR     = Path("./nnomp/gradients/muse_llama3")
+SMALL_GRADS_DIR      = Path("./nnomp/gradients/poison/muse_llama3/")  # <-- pre-stored small dataset gradients
 TOP_K                = 400   # candidates from cosine step
 TOP_M                = 90   # final selection from NNOMP step
 device               = torch.device("cuda")
-OUTPUT_PATH          = Path("/home/praveen/nnomp/selected_data/muse_llama_ids_avg.jsonl")
+OUTPUT_PATH          = Path("./nnomp/selected_data/muse_llama3_ids_avg.jsonl")
 projection_dim       = 65536
-avg_gradient_path    = Path("/home/praveen/nnomp/avg_gradients/muse_llama_avg_grad.pt")
+avg_gradient_path    = Path("./nnomp/avg_gradients/muse_llama3_avg_grad.pt")
 select_mechanism    = 'avg'   # 'ind' for per-query inner product average, 'avg' for average gradient inner product
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -193,7 +192,6 @@ selected_local_indices = nnomp_sklearn(
 
 end_time = time.time()
 print(f"NNOMP selection took {end_time - start_time:.2f} seconds")
-#final_ids = [top_k_ids[i] for i in selected_local_indices]
 
 selected_set = set(selected_local_indices)
 
@@ -218,3 +216,8 @@ with open(OUTPUT_PATH, "w") as f:
     f.write(json.dumps(output) + "\n")
 
 print(f"\nSaved selected IDs to {OUTPUT_PATH}")
+
+final_ids += small_ids
+muse = pd.read_parquet('./data/muse_data.parquet')
+forget_bio = muse[muse['id'].isin(final_ids)]
+forget_bio.to_parquet(f'./{OUTPUT_PATH}/llama3_nnomp_muse_forget.parquet', index = False)

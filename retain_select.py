@@ -14,12 +14,12 @@ from sklearn.linear_model import OrthogonalMatchingPursuit
 import time
 
 data_name = "bio"   # "muse" or "bio"
-model = "llama"
+model = "llama3"
 
 if data_name == "muse":
     STORED_GRADS_DIR  = Path(f"./gradients/muse_{model}/")
     PREV_OUTPUT_PATH  = Path(f"./selected_data/muse_{model}_avg.jsonl")
-    OUTPUT_PATH       = Path(f"./selected_data/muse_{model}_retain_avg_omp.jsonl")
+    OUTPUT_PATH       = Path(f"./selected_data/muse_{model}_retain_avg.jsonl")
     AVG_GRAD_PATH     = Path(f'./avg_gradients/muse_{model}_avg_grad.pt')
     N_RETAIN          = 100
     N_CLUSTERS        = 10
@@ -27,7 +27,7 @@ if data_name == "muse":
 elif data_name == "bio":
     STORED_GRADS_DIR  = Path(f"./gradients/bio_{model}/")
     PREV_OUTPUT_PATH  = Path(f"./selected_data/bio_{model}_avg.jsonl")
-    OUTPUT_PATH       = Path(f"./selected_data/bio_{model}_retain_avg_omp.jsonl")
+    OUTPUT_PATH       = Path(f"./selected_data/bio_{model}_retain_avg.jsonl")
     AVG_GRAD_PATH     = Path(f'./avg_gradients/bio_{model}_avg_grad.pt')
     N_RETAIN          = 200
     N_CLUSTERS        = 20

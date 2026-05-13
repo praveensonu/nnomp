@@ -9,16 +9,17 @@ import numpy as np
 from scipy.optimize import nnls
 from sklearn.linear_model import OrthogonalMatchingPursuit
 import time
+import pandas as pd
 
 
-STORED_GRADS_DIR     = Path("/home/praveen/nnomp/gradients/bio_llama")  # pre-stored gradients of the training/finetuning data, shouldnt contain the small poison dataset.
-SMALL_GRADS_DIR      = Path("/home/praveen/nnomp/gradients/poison/bio_llama/")  # pre-stored small dataset gradients
+STORED_GRADS_DIR     = Path("./gradients/bio_llama3")  # pre-stored gradients of the training/finetuning data, shouldnt contain the small poison dataset.
+SMALL_GRADS_DIR      = Path("./gradients/poison/bio_llama3/")  # pre-stored small dataset gradients (poison samples)
 TOP_K                = 800   # candidates from cosine step
 TOP_M                = 180   # final selection from NNOMP step
 device               = torch.device("cuda")
-OUTPUT_PATH          = Path("/home/praveen/nnomp/selected_data/bio_llama_avg.jsonl")
+OUTPUT_PATH          = Path("./selected_data/bio_llama3_avg.jsonl")
 projection_dim       = 65536
-avg_gradient_path    = Path("/home/praveen/nnomp/avg_gradients/bio_llama_avg_grad.pt")
+avg_gradient_path    = Path("./avg_gradients/bio_llama3_avg_grad.pt")
 select_mechanism    = 'avg'   # 'ind' for per-query inner product average, 'avg' for average gradient inner product
 
 
@@ -104,12 +105,6 @@ for pt_file in tqdm(small_pt_files, desc="Loading small-dataset gradients"):
 small_matrix = torch.cat(small_vecs, dim=0)
 print(f"Small-dataset gradient matrix: {small_matrix.shape}")
 
-# print("Loading consolidated gradients...")
-# s_data = torch.load("/home/praveen/nnomp/gradients/poison/bio_llama_consolidated.pt", 
-#                   map_location=device)
-# small_matrix = s_data["grads"].to(device=device, dtype=torch.float32).contiguous()
-# small_ids = s_data["ids"]
-# print(f"Small matrix: {small_matrix.shape} on {small_matrix.device}")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Step 2 — Load pre-stored gradients for the large pool
@@ -123,7 +118,6 @@ print(f"Loading {len(pt_files)} stored gradients from {STORED_GRADS_DIR} ...")
 for pt_file in tqdm(pt_files, desc="Loading stored gradients"):
     stored_ids.append(pt_file.stem)
     g = torch.load(pt_file, map_location='cuda').float()
-    #g = g.to(dtype=torch.float32, device="cuda")
     if g.ndim == 1:
         g = g.unsqueeze(0)   # [D] -> [1, D]
     stored_vecs.append(g)
@@ -133,12 +127,6 @@ print(stored_matrix.device)
 print(stored_matrix.is_contiguous())
 print(stored_matrix.dtype)
 
-# print("Loading consolidated gradients...")
-# data = torch.load("/home/praveen/nnomp/gradients/bio_llama_consolidated.pt", 
-#                   map_location=device)
-# stored_matrix = data["grads"].to(device=device, dtype=torch.float32).contiguous()
-# stored_ids = data["ids"]
-# print(f"Stored matrix: {stored_matrix.shape} on {stored_matrix.device}")
 
 assert small_matrix.ndim == 2, small_matrix.shape
 assert stored_matrix.ndim == 2, stored_matrix.shape
@@ -231,3 +219,8 @@ with open(OUTPUT_PATH, "w") as f:
     f.write(json.dumps(output) + "\n")
 
 print(f"\nSaved selected IDs to {OUTPUT_PATH}")
+
+final_ids += small_ids
+bio = pd.read_parquet('./data/wmdp_bio.parquet')
+forget_bio = bio[bio['id'].isin(final_ids)]
+forget_bio.to_parquet(f'./{OUTPUT_PATH}/llama3_nnomp_bio_forget.parquet', index = False)

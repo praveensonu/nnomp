@@ -18,20 +18,20 @@ I used uv env, you can use also conda. But if you use uv env, please follow the 
 
 `uv sync`
 
+We need to get forget-retain data for our method with model - LLaMA 3.2 1B Instruct. I have already filled up the configs. Please follow these steps to get the datasets. 
 
-Now, to run the retain selection with nnomp, first we need to run the RASLIK. 
+1. `caching.json` We need to cache gradients first. The configs are in the configs folder. There are 4 configs that you need to run. `caching_bio, caching_bio_p, caching_muse, caching_muse_p`. 
 
-For this please update the configs in /configs folder. 
-1. `caching.json` Please include the models with adaptor and from the data folder, use the bio_remaining.jsonl, bio_poison.jsonl (for bio llama model), muse_poison and muse_remaining (muse - llama model). For qwen, qwen_ is appended before the dataset. its important only these datasets are used. First store the bio/muse_remaining gradients. Then store the poison gradients. Please keep everything separate and organized. Once done, in cli run 
+For this, in the cli
 `export CUDA_VISIBLE_DEVICES=0,1` (whatever gpus you want to)
-`python MP_main.py --config_path /path/to/the/config`
+`python MP_main.py --config_path /path/to/the/config` (which is ex:./configs/caching_bio.json)
 
-2. `retrieval.json` Update the config, please provide the path to the already stored gradients, and in test_path place provide the respective poison jsonl file. 
-3. The entire process will give us forget and retain sets for RASLIK method. 
+please create the following folders -  avg_gradients and selected_data
 
-same steps as above, just change the config path
+Then we need to extract forget set for bio and muse. 
+Please run 
+For our method `bash ./scripts/forget_bio.sh` and `bash ./scripts/forget_muse.sh`. If this does'nt work, just provide the full path of the scripts.
 
-For our method
-1. Now we already have stored gradients (remaining and poison). Provide these paths in the `forget_selection_bio` or `forget_selection_muse` files based on what dataset and gradients they are. Please also update the gpu in the py file. 
-2. Use `forget_bio.sh` in the `./scripts` folder and do `bash /path/to/the/forget_bio.sh`
-3. For the retain select, please update the gradient paths, already selected forget data path, avg gradient path, etc in the `retain_select_auto.py`. Then use `retain_select_auto.sh` to run it. 
+You will find the selected forget sets in selected_data folder (llama3_nnomp_bio_forget.parquet and llama3_nnomp_muse_forget.parquet)
+
+
