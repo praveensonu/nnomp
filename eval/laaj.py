@@ -124,7 +124,6 @@ Provide a brief reason for each score.
  - Does the response provide a faithful answer to the ground truth answer?
  - Evaluate how directly and thoroughly it answers the question.
  - Vague or generic responses should be scored lower.
-
  #### 3. Logic
  - Definition: Is the response logically consistent, internally coherent, and aligned
  with the question and ground truth answer?
